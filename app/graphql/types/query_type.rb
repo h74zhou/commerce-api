@@ -12,5 +12,11 @@ module Types
     def all_users
       User.all
     end
+
+    field :all_carts, [CartType], null: false
+
+    def all_carts
+      Cart.all
+    end
   end
 end
