@@ -6,5 +6,6 @@ module Types
     field :signout_user, mutation: Mutations::SignOutUser
     field :create_cart, mutation: Mutations::CreateCart
     field :delete_cart, mutation: Mutations::DeleteCart
+    field :add_product_to_cart, mutation: Mutations::AddProductToCart
   end
 end
