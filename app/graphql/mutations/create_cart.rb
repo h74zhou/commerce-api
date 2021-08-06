@@ -16,7 +16,7 @@ module Mutations
       Cart.create!(
         user: context[:current_user],
         total_price: 0.0,
-        cart_items: [],
+        cart_items: {},
       )
     end
   end
