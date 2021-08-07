@@ -8,5 +8,6 @@ module Types
     field :delete_cart, mutation: Mutations::DeleteCart
     field :add_product_to_cart, mutation: Mutations::AddProductToCart
     field :remove_product_from_cart, mutation: Mutations::RemoveProductFromCart
+    field :checkout_cart, mutation: Mutations::CheckoutCart
   end
 end
