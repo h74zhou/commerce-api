@@ -1,7 +1,7 @@
 module Types
   class CartType < Types::BaseObject
-    field :user, Types::UserType, null: false
-    field :total_price, Float, null: false
+    field :user, Types::UserType, null: true
+    field :total_price, Float, null: true
     field :items, [Types::CartItemsType], null: false
   
     def items

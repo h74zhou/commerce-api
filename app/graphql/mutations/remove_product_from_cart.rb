@@ -1,5 +1,5 @@
 module Mutations
-  class AddProductToCart < BaseMutation
+  class RemoveProductFromCart < BaseMutation
     argument :product_id, ID, required: true
     argument :quantity, Integer, required: true
 
@@ -11,7 +11,7 @@ module Mutations
       end
 
       unless quantity
-        raise GraphQL::ExecutionError, "You need to select a quantity for the item you want to buy"
+        raise GraphQL::ExecutionError, "You need to select the quantity for this element to be removed"
       end
 
       user = context[:current_user] 
@@ -24,13 +24,16 @@ module Mutations
       end
 
       unless product
-        raise GraphQL::ExecutionError, "The product you're trying to add no longer exists in the inventory"
+        raise GraphQL::ExecutionError, "The product you're trying to remove no longer exists in the inventory"
       end
 
       if cart.cart_items[product_id]
-        cart.cart_items[product_id] += quantity
+        cart.cart_items[product_id] -= quantity
+        if cart.cart_items[product_id] < 0
+          cart.cart_items.delete(product_id)
+        end
       else
-        cart.cart_items[product_id] = quantity
+        raise GraphQL::ExecutionError, "The product you're trying to remove is no longer in your cart"
       end
 
       new_total_price = 0.0
@@ -38,10 +41,10 @@ module Mutations
         current_product = Product.find_by id: id
         new_total_price += current_product.price * quantity
       end
-
+      
       cart.total_price = new_total_price
       cart.save!
-
+      
       return cart
     end
   end
